@@ -9,5 +9,11 @@ FactoryBot.define do
     factory :survivor_infected do
       infected { true }
     end
+
+    factory :survivor_with_resource do
+      after(:create) do |survivor, evaluator|
+        create_list(:resource, 2, survivor: survivor)
+      end
+    end
   end
 end

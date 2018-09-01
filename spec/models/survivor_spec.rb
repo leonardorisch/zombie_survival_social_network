@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Survivor do
+RSpec.describe Survivor, type: :model do
   describe "#save" do
     context "when pass valid attributes" do
       let(:valid_survivor) { build(:survivor) }
