@@ -17,7 +17,7 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module RecrutamentoRubyJyaLeorisch
+module ZombieSurvivalSocialNetwork
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     # Settings in config/environments/* take precedence over those specified here.
