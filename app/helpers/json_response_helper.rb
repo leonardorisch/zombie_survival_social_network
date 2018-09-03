@@ -1,5 +1,5 @@
 module JsonResponseHelper
-  def error_response(message, status)
-    render json: { message: message }, status: status
+  def json_response(message, status)
+    render json: message, status: status
   end
 end
