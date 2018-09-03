@@ -1,4 +1,5 @@
 class SurvivorController < ApplicationController
+  include JsonResponseHelper
 
   def create
     ActiveRecord::Base.transaction do
@@ -7,8 +8,7 @@ class SurvivorController < ApplicationController
       render json: SurvivorSerializer.new(survivor).serialized_json, status: 200
     end
   rescue StandardError => exception
-    message = "Failed to create a new survivor #{exception}"
-    render json: { message: message }, status: 400
+    error_response("Failed to create a new survivor #{exception}", 400)
   end
 
   private
