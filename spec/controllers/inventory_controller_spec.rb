@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe InventoryController do
+RSpec.describe InventoryController, type: :controller do
   describe "POST #trade" do
     let(:first_survivor) { create(:survivor_with_water_resource) }
     let(:second_survivor) { create(:survivor_with_water_resource) }
@@ -45,7 +45,7 @@ RSpec.describe InventoryController do
       allow(ProcessTradeService).to receive(:new).and_return(trade_service)
       allow(trade_service).to receive(:call).and_return('true')
     end
-  
+
     context "process trade" do
       it "call service to process" do
         expect(ProcessTradeService).to receive(:new).with(
