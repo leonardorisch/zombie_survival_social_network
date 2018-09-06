@@ -2,10 +2,11 @@ class ProcessInfectationService
 
   REPORTERS_LIMIT = 3.freeze
 
-  def initialize(infected, reporter)
+  def initialize(infected, reporter, redis_adapter)
     @infected = infected
     @reporter = reporter
     @infected_set = "reporters:#{infected.id}"
+    @redis = redis_adapter
   end
 
   def call
@@ -19,7 +20,7 @@ class ProcessInfectationService
 
   private
 
-  attr_accessor :infected
+  attr_accessor :infected, :redis
   attr_reader   :reporter, :infected_set
 
   def reporters_from_infected
@@ -33,10 +34,6 @@ class ProcessInfectationService
   def mark_as_infected
     infected.update(infected: true)
     redis.del(infected_set)
-  end
-
-  def redis
-    @redis = Redis.new
   end
 
 end

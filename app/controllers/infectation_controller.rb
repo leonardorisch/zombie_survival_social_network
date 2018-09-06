@@ -6,7 +6,10 @@ class InfectationController < ApplicationController
     survivor_reporter = Survivor.find(infectation_params[:reporter_id])
     json_response({ message: 'Already infected' }, 200 ) && return if survivor_infected.infected?
 
-    message, status = ProcessInfectationService.new(survivor_infected, survivor_reporter).call
+    message, status = ProcessInfectationService.new(
+      survivor_infected, survivor_reporter, RedisAdapter.redis_instance
+    ).call
+
     json_response({ message: message }, status)
 
   rescue ActiveRecord::RecordNotFound => exception
