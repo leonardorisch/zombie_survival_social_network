@@ -7,8 +7,8 @@ class ProcessTradeService
   end
 
   def call
-    first_resources = resources_by_survivor_params(first_trader_params)
-    second_resources = resources_by_survivor_params(second_trader_params)
+    first_resources = resources_by_survivor_params(first_survivor, first_trader_params)
+    second_resources = resources_by_survivor_params(second_survivor, second_trader_params)
     except_resources = first_resources.pluck :id
     return "Survivors cannot be infected", 422 if survivors_infected?
     return "Resource values must me equal", 422 if trade_has_different_values?(first_resources, second_resources)
@@ -24,9 +24,9 @@ class ProcessTradeService
   attr_reader :first_trader_params, :second_trader_params
   attr_accessor :first_survivor, :second_survivor
 
-  def resources_by_survivor_params(trader_params)
+  def resources_by_survivor_params(trader, trader_params)
     resources_type = trader_params[:inventory_attributes].collect{ |resource| resource['type'] }
-    Survivor.find(trader_params[:survivor_id]).inventory.where(type: resources_type)
+    trader.inventory.where(type: resources_type)
   end
 
   def process_trade(first_resources, second_resources, except_resources)
