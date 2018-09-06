@@ -15,10 +15,6 @@ class InfectationController < ApplicationController
 
   private
 
-  def redis
-    @redis ||= Redis.new
-  end
-
   def infectation_params
     params.permit(:reporter_id, :infected_id)
   end
