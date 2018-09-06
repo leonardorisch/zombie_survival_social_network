@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe InfectationController do
+RSpec.describe InfectationController, type: :controller do
   describe "POST #report_contamination" do
     let(:infected) { create(:survivor) }
     let(:reporter) { create(:survivor) }
@@ -32,7 +32,7 @@ RSpec.describe InfectationController do
       it 'call process service' do
         allow(service).to receive(:call)
         expect(ProcessInfectationService).to receive(:new).with(
-          infected, reporter
+          infected, reporter, redis
         )
         post :report, params: valid_params
       end

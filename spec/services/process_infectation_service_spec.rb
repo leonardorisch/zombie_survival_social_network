@@ -15,7 +15,7 @@ RSpec.describe ProcessInfectationService do
     context "when infected was already reported" do
       it "return status with message" do
         allow(redis).to receive(:lrange).and_return([survivor_reporter1.id.to_s])
-        expect(described_class.new(survivor_infected, survivor_reporter1).call)
+        expect(described_class.new(survivor_infected, survivor_reporter1, redis).call)
         .to match_array(["Already reported by current reporter", 422])
       end
     end
@@ -24,7 +24,7 @@ RSpec.describe ProcessInfectationService do
       it "return status with message" do
         allow(redis).to receive(:lrange).and_return([])
         allow(redis).to receive(:lpush).and_return(1)
-        expect(described_class.new(survivor_infected, survivor_reporter1).call)
+        expect(described_class.new(survivor_infected, survivor_reporter1, redis).call)
         .to match_array(["Report counted", 200])
       end
     end
@@ -33,7 +33,7 @@ RSpec.describe ProcessInfectationService do
       it "return status with message" do
         allow(redis).to receive(:lrange).and_return([survivor_reporter2, survivor_reporter3])
         allow(redis).to receive(:lpush).and_return(3)
-        expect(described_class.new(survivor_infected, survivor_reporter1).call)
+        expect(described_class.new(survivor_infected, survivor_reporter1, redis).call)
         .to match_array(["Survivor marked as infected", 200])
       end
     end
